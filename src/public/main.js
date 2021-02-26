@@ -1,8 +1,9 @@
 import IslandCounter from './IslandCounter';
 
 const runCount = () => {
+  console.log('start count');
   const start = new Date().getTime();
-  const islandCounter = new IslandCounter(50, 20);
+  const islandCounter = new IslandCounter(20, 20);
   islandCounter.printMap();
   const count = islandCounter.findIslends();
   islandCounter.printIslandMap();
@@ -11,4 +12,4 @@ const runCount = () => {
   console.log('time:', timeDiff);
 };
 
-runCount();
+document.getElementById('btnCount').addEventListener('click', runCount, false);

@@ -197,6 +197,65 @@ var Point = /*#__PURE__*/function () {
 
 var _default = Point;
 exports.default = _default;
+},{}],"Queue.js":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Queue = /*#__PURE__*/function () {
+  function Queue() {
+    _classCallCheck(this, Queue);
+
+    for (var _len = arguments.length, elements = new Array(_len), _key = 0; _key < _len; _key++) {
+      elements[_key] = arguments[_key];
+    }
+
+    // Initializing the queue with given arguments
+    this.elements = [].concat(elements);
+  } // Proxying the push/shift methods
+
+
+  _createClass(Queue, [{
+    key: "push",
+    value: function push() {
+      var _this$elements;
+
+      return (_this$elements = this.elements).push.apply(_this$elements, arguments);
+    }
+  }, {
+    key: "shift",
+    value: function shift() {
+      var _this$elements2;
+
+      return (_this$elements2 = this.elements).shift.apply(_this$elements2, arguments);
+    } // Add some length utility methods
+
+  }, {
+    key: "getLength",
+    value: function getLength() {
+      return this.elements.length;
+    }
+  }, {
+    key: "setLength",
+    value: function setLength(length) {
+      this.elements.length = length;
+    }
+  }]);
+
+  return Queue;
+}();
+
+var _default = Queue;
+exports.default = _default;
 },{}],"IslandCounter.js":[function(require,module,exports) {
 "use strict";
 
@@ -208,6 +267,8 @@ exports.default = void 0;
 var _Island = _interopRequireDefault(require("./Island"));
 
 var _Point = _interopRequireDefault(require("./Point"));
+
+var _Queue = _interopRequireDefault(require("./Queue"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -229,6 +290,14 @@ var IslandCounter = /*#__PURE__*/function () {
     this.islandCount = 0; // this.map = [
     //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //   [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //   [0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+    //   [0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //   [0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -236,14 +305,11 @@ var IslandCounter = /*#__PURE__*/function () {
     //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    // ];
+    // this.map = [
+    //   [0, 1, 0, 0],
+    //   [0, 1, 0, 0],
+    //   [0, 0, 0, 1],
     // ];
 
     this.map = IslandCounter.initMap(hight, length); // console.log(this.map);
@@ -276,9 +342,9 @@ var IslandCounter = /*#__PURE__*/function () {
         for (var x = 0; x < this.map[y].length; x += 1) {
           if (this.isUnChartedLand(x, y)) {
             // this.islandMap[y][x] = 2;
-            // const point = new Point(x, y);
-            var island = this.addNewIsland(x, y);
-            this.doMapIsland(x, y, island); // console.log(`point (${x}, ${y})`);
+            var island = this.addNewIsland();
+            var point = new _Point.default(x, y);
+            this.doMapIsland(point, island); // console.log(`point (${x}, ${y})`);
           }
         }
       }
@@ -296,19 +362,24 @@ var IslandCounter = /*#__PURE__*/function () {
 
   }, {
     key: "doMapIsland",
-    value: function doMapIsland(x, y, island) {
+    value: function doMapIsland(root, island) {
       var _this = this;
 
-      var neighbors = this.getNeighbors(x, y); // console.log(neighbors);
+      var index = 0;
+      var queueNewPoints = new _Queue.default(root);
 
-      neighbors.forEach(function (point) {
-        if (_this.isUnChartedLand(point.x, point.y)) {
-          _this.addPointToIsland(point.x, point.y, island); // recursive call!!
+      while (queueNewPoints.getLength() && index < 1000) {
+        index += 1;
+        var point = queueNewPoints.shift();
+        this.addPointToIsland(point, island); // add neighbor land point to queue
 
-
-          _this.doMapIsland(point.x, point.y, island);
-        }
-      });
+        var neighbors = this.getNeighbors(point.x, point.y);
+        neighbors.forEach(function (newPoint) {
+          if (_this.isUnChartedLand(newPoint.x, newPoint.y)) {
+            queueNewPoints.push(newPoint);
+          }
+        });
+      }
     }
   }, {
     key: "getNeighbors",
@@ -334,20 +405,18 @@ var IslandCounter = /*#__PURE__*/function () {
     }
   }, {
     key: "addNewIsland",
-    value: function addNewIsland(x, y) {
+    value: function addNewIsland() {
       this.islandCount += 1;
       var island = new _Island.default(this.islandCount); // console.log(`new island ${island.key}:`);
 
-      this.addPointToIsland(x, y, island);
       return island;
     }
   }, {
     key: "addPointToIsland",
-    value: function addPointToIsland(x, y, island) {
-      // console.log(`${island.key}: ${x}, ${y}`);
-      var point = new _Point.default(x, y);
+    value: function addPointToIsland(point, island) {
+      // console.log(`${island.key}: ${point.x}, ${point.y}`);
       island.addPoint(point);
-      this.islandMap[y][x] = island.key;
+      this.islandMap[point.y][point.x] = island.key;
     }
   }], [{
     key: "initMap",
@@ -395,7 +464,7 @@ var IslandCounter = /*#__PURE__*/function () {
 
 var _default = IslandCounter;
 exports.default = _default;
-},{"./Island":"Island.js","./Point":"Point.js"}],"main.js":[function(require,module,exports) {
+},{"./Island":"Island.js","./Point":"Point.js","./Queue":"Queue.js"}],"main.js":[function(require,module,exports) {
 "use strict";
 
 var _IslandCounter = _interopRequireDefault(require("./IslandCounter"));
@@ -403,8 +472,9 @@ var _IslandCounter = _interopRequireDefault(require("./IslandCounter"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var runCount = function runCount() {
+  console.log('start count');
   var start = new Date().getTime();
-  var islandCounter = new _IslandCounter.default(50, 20);
+  var islandCounter = new _IslandCounter.default(20, 20);
   islandCounter.printMap();
   var count = islandCounter.findIslends();
   islandCounter.printIslandMap();
@@ -413,7 +483,7 @@ var runCount = function runCount() {
   console.log('time:', timeDiff);
 };
 
-runCount();
+document.getElementById('btnCount').addEventListener('click', runCount, false);
 },{"./IslandCounter":"IslandCounter.js"}],"../../node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -442,7 +512,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "55380" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54508" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

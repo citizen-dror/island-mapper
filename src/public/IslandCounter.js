@@ -1,5 +1,6 @@
 import Island from './Island';
 import Point from './Point';
+import Queue from './Queue';
 
 function randoNumber(min, max) { // min and max included
   return Math.floor(Math.random() * (max - min + 1) + min);
@@ -12,14 +13,14 @@ class IslandCounter {
     // this.map = [
     //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //   [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //   [0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
+    //   [0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //   [0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+    //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -28,6 +29,13 @@ class IslandCounter {
     //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
     // ];
+
+    // this.map = [
+    //   [0, 1, 0, 0],
+    //   [0, 1, 0, 0],
+    //   [0, 0, 0, 1],
+    // ];
+
     this.map = IslandCounter.initMap(hight, length);
     // console.log(this.map);
     this.length = this.map[0].length;
@@ -78,9 +86,9 @@ class IslandCounter {
       for (let x = 0; x < this.map[y].length; x += 1) {
         if (this.isUnChartedLand(x, y)) {
           // this.islandMap[y][x] = 2;
-          // const point = new Point(x, y);
-          const island = this.addNewIsland(x, y);
-          this.doMapIsland(x, y, island);
+          const island = this.addNewIsland();
+          const point = new Point(x, y);
+          this.doMapIsland(point, island);
           // console.log(`point (${x}, ${y})`);
         }
       }
@@ -96,16 +104,21 @@ class IslandCounter {
   }
 
   // isPointInSland(point, )
-  doMapIsland(x, y, island) {
-    const neighbors = this.getNeighbors(x, y);
-    // console.log(neighbors);
-    neighbors.forEach((point) => {
-      if (this.isUnChartedLand(point.x, point.y)) {
-        this.addPointToIsland(point.x, point.y, island);
-        // recursive call!!
-        this.doMapIsland(point.x, point.y, island);
-      }
-    });
+  doMapIsland(root, island) {
+    let index = 0;
+    const queueNewPoints = new Queue(root);
+    while (queueNewPoints.getLength() && index < 1000) {
+      index += 1;
+      const point = queueNewPoints.shift();
+      this.addPointToIsland(point, island);
+      // add neighbor land point to queue
+      const neighbors = this.getNeighbors(point.x, point.y);
+      neighbors.forEach((newPoint) => {
+        if (this.isUnChartedLand(newPoint.x, newPoint.y)) {
+          queueNewPoints.push(newPoint);
+        }
+      });
+    }
   }
 
   getNeighbors(x, y) {
@@ -125,19 +138,17 @@ class IslandCounter {
     return neighbors;
   }
 
-  addNewIsland(x, y) {
+  addNewIsland() {
     this.islandCount += 1;
     const island = new Island(this.islandCount);
     // console.log(`new island ${island.key}:`);
-    this.addPointToIsland(x, y, island);
     return island;
   }
 
-  addPointToIsland(x, y, island) {
-    // console.log(`${island.key}: ${x}, ${y}`);
-    const point = new Point(x, y);
+  addPointToIsland(point, island) {
+    // console.log(`${island.key}: ${point.x}, ${point.y}`);
     island.addPoint(point);
-    this.islandMap[y][x] = island.key;
+    this.islandMap[point.y][point.x] = island.key;
   }
 }
 

@@ -3,7 +3,7 @@ import IslandCounter from './IslandCounter';
 const runCount = () => {
   console.log('start count');
   const start = new Date().getTime();
-  const islandCounter = new IslandCounter(20, 20);
+  const islandCounter = new IslandCounter(100, 100);
   islandCounter.printMap();
   const count = islandCounter.findIslends();
   islandCounter.printIslandMap();

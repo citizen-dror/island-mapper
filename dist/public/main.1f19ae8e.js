@@ -160,40 +160,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var Point = /*#__PURE__*/function () {
-  function Point(x, y) {
-    _classCallCheck(this, Point);
-
-    this.x = x;
-    this.y = y;
-  }
-
-  _createClass(Point, [{
-    key: "isNeighbor",
-    value: function isNeighbor(otherPoint) {
-      return Math.abs(this.x - otherPoint.x) <= 1 && Math.abs(this.y - otherPoint.y) <= 1;
-    }
-  }, {
-    key: "getNeighbors",
-    value: function getNeighbors() {
-      var res = [];
-
-      if (this.x > 0) {
-        res.push(new Point(this.x - 1, this.y));
-      }
-
-      return res;
-    }
-  }]);
-
-  return Point;
-}();
+function Point(x, y) {
+  this.x = x;
+  this.y = y;
+}
 
 var _default = Point;
 exports.default = _default;
@@ -474,7 +444,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 var runCount = function runCount() {
   console.log('start count');
   var start = new Date().getTime();
-  var islandCounter = new _IslandCounter.default(20, 20);
+  var islandCounter = new _IslandCounter.default(100, 100);
   islandCounter.printMap();
   var count = islandCounter.findIslends();
   islandCounter.printIslandMap();
@@ -512,7 +482,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54508" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "56175" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

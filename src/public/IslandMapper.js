@@ -86,9 +86,10 @@ class IslandMapper {
   doMapIsland(root, island) {
     let index = 0;
     const queueNewPoints = new Queue(root);
-    while (queueNewPoints.getLength() && index <= 200000) {
+    while (queueNewPoints.getLength() && index <= 700000) {
       index += 1;
       if (index === 200000) console.log('got 200,000 limit !!');
+      if (index === 500000) console.log('got 500,000 limit !!');
       const point = queueNewPoints.shift();
       if (this.isUnChartedLand(point.x, point.y)) {
         this.addPointToIsland(point, island);

@@ -42,10 +42,13 @@ const draw = (islandsMap, mapWidth, mapHight) => {
     islandsMap.forEach((value) => {
       const { color, points } = value;
       ctx.fillStyle = color;
-      points.map((point) => {
+      points.forEach((point) => {
         ctx.fillRect(point.x * rectWidth, point.y * rectHight, rectWidth, rectHight);
-        return null;
       });
+      // points.map((point) => {
+      //   ctx.fillRect(point.x * rectWidth, point.y * rectHight, rectWidth, rectHight);
+      //   return null;
+      // });
     });
   }
 };

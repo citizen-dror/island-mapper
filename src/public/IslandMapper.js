@@ -1,12 +1,9 @@
 import Island from './Island';
 import Point from './Point';
 import Queue from './Queue';
+import { randoNumber } from './Utils';
 
-function randoNumber(min, max) { // min and max included
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
-class IslandCounter {
+class IslandMapper {
   constructor(hight, length) {
     this.islandCount = 0;
 
@@ -36,14 +33,14 @@ class IslandCounter {
     //   [0, 0, 0, 1],
     // ];
 
-    this.map = IslandCounter.initMap(hight, length);
+    this.map2d = IslandMapper.initMap(hight, length);
     // console.log(this.map);
-    this.length = this.map[0].length;
-    this.hight = this.map.length;
-    this.islandMap = IslandCounter.initIslandMap(this.map);
+    this.length = this.map2d[0].length;
+    this.hight = this.map2d.length;
+    this.islansdMap2d = IslandMapper.initIslandsMap(this.map2d);
     // const islandStrat = IslandCounter.copy2DArray(this.islandMap);
     // console.log(islandStrat);
-    this.islandList = new Map();
+    this.islandsDictionary = new Map();
   }
 
   static initMap(hight, length) {
@@ -54,15 +51,7 @@ class IslandCounter {
     return arr;
   }
 
-  static copy2DArray(array) {
-    const newArray = [];
-    for (let i = 0; i < array.length; i += 1) {
-      newArray[i] = array[i].slice();
-    }
-    return newArray;
-  }
-
-  static initIslandMap(array) {
+  static initIslandsMap(array) {
     const newArray = [];
     for (let i = 0; i < array.length; i += 1) {
       newArray[i] = array[i].map((x) => ((x === 1) ? -1 : 0));
@@ -70,20 +59,10 @@ class IslandCounter {
     return newArray;
   }
 
-  printMap() {
-    // eslint-disable-next-line no-console
-    console.log(this.map);
-  }
-
-  printIslandMap() {
-    // eslint-disable-next-line no-console
-    console.log(this.islandMap);
-  }
-
   //*
   findIslends() {
-    for (let y = 0; y < this.map.length; y += 1) {
-      for (let x = 0; x < this.map[y].length; x += 1) {
+    for (let y = 0; y < this.map2d.length; y += 1) {
+      for (let x = 0; x < this.map2d[y].length; x += 1) {
         if (this.isUnChartedLand(x, y)) {
           // this.islandMap[y][x] = 2;
           const island = this.addNewIsland();
@@ -100,7 +79,7 @@ class IslandCounter {
   // if 0 = sea,
   // if val > 0  -mapped Land
   isUnChartedLand(x, y) {
-    return (this.islandMap[y][x] < 0);
+    return (this.islansdMap2d[y][x] < 0);
   }
 
   // isPointInSland(point, )
@@ -141,6 +120,7 @@ class IslandCounter {
   addNewIsland() {
     this.islandCount += 1;
     const island = new Island(this.islandCount);
+    this.islandsDictionary.set(this.islandCount, island);
     // console.log(`new island ${island.key}:`);
     return island;
   }
@@ -148,8 +128,18 @@ class IslandCounter {
   addPointToIsland(point, island) {
     // console.log(`${island.key}: ${point.x}, ${point.y}`);
     island.addPoint(point);
-    this.islandMap[point.y][point.x] = island.key;
+    this.islansdMap2d[point.y][point.x] = island.key;
+  }
+
+  printMap() {
+    // eslint-disable-next-line no-console
+    console.log(this.map2d);
+  }
+
+  printIslandMap() {
+    // eslint-disable-next-line no-console
+    console.log(this.islansdMap2d);
   }
 }
 
-export default IslandCounter;
+export default IslandMapper;

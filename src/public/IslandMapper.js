@@ -84,19 +84,23 @@ class IslandMapper {
 
   // isPointInSland(point, )
   doMapIsland(root, island) {
-    // let index = 0;
+    let index = 0;
     const queueNewPoints = new Queue(root);
-    while (queueNewPoints.getLength()) {
-      // index += 1;
+    while (queueNewPoints.getLength() && index <= 200000) {
+      index += 1;
+      if (index === 200000) console.log('got 200,000 limit !!');
       const point = queueNewPoints.shift();
-      this.addPointToIsland(point, island);
-      // add neighbor land point to queue
-      const neighbors = this.getNeighbors(point.x, point.y);
-      neighbors.forEach((newPoint) => {
-        if (this.isUnChartedLand(newPoint.x, newPoint.y)) {
-          queueNewPoints.push(newPoint);
-        }
-      });
+      if (this.isUnChartedLand(point.x, point.y)) {
+        this.addPointToIsland(point, island);
+        // add neighbor land point to queue
+        const neighbors = this.getNeighbors(point.x, point.y);
+        neighbors.forEach((newPoint) => {
+          if (this.isUnChartedLand(newPoint.x, newPoint.y)) {
+            queueNewPoints.push(newPoint);
+          }
+        });
+      }
+    
     }
   }
 
@@ -121,7 +125,7 @@ class IslandMapper {
     this.islandCount += 1;
     const island = new Island(this.islandCount);
     this.islandsDictionary.set(this.islandCount, island);
-    // console.log(`new island ${island.key}:`);
+    console.log(`new island ${island.key}:`);
     return island;
   }
 

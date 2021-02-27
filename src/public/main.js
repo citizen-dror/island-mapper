@@ -45,10 +45,6 @@ const draw = (islandsMap, mapWidth, mapHight) => {
       points.forEach((point) => {
         ctx.fillRect(point.x * rectWidth, point.y * rectHight, rectWidth, rectHight);
       });
-      // points.map((point) => {
-      //   ctx.fillRect(point.x * rectWidth, point.y * rectHight, rectWidth, rectHight);
-      //   return null;
-      // });
     });
   }
 };
@@ -56,8 +52,8 @@ const draw = (islandsMap, mapWidth, mapHight) => {
 const runCount = () => {
   console.log('start count');
   const start = new Date().getTime();
-  const width = 20;
-  const hight = 20;
+  const width = 30;
+  const hight = 30;
   const islandMapper = new IslandMapper(width, hight);
   islandMapper.printMap();
   const count = islandMapper.findIslends();

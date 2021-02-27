@@ -2,7 +2,7 @@ import IslandMapper from './IslandMapper';
 import { covertArray2dTO1d } from './Utils';
 import Island from './Island';
 
-const draw = (n, m, array2D, islandsDictionary) => {
+const draw1 = (n, m, array2D, islandsDictionary) => {
   console.log('draw');
   const canvas = document.getElementById('islandsCanavas');
   if (canvas.getContext) {
@@ -12,22 +12,38 @@ const draw = (n, m, array2D, islandsDictionary) => {
     // Iterate through every pixel
     for (let i = 0; i < imageData.data.length; i += 4) {
       const inputIdnex = Math.floor(i / 4);
-      // const islandKey = array2D[inputIdnex];
-      if (array2D[inputIdnex] > 0) {
+      const islandKey = array2D[inputIdnex];
+      if (islandKey > 0) {
         // Modify pixel data
-        // const { color } = islandsDictionary.get(islandKey);
-        // console.log(color);
-        // const {
-        //   r, g, b, a,
-        // } = color;
-        imageData.data[i + 0] = 190; // R value
+        const { color } = islandsDictionary.get(islandKey);
+        console.log(color);
+        const {
+          r, g, b, a,
+        } = color;
+        imageData.data[i + 0] = r; // R value
         imageData.data[i + 1] = 0; // G value
-        imageData.data[i + 2] = 210; // B value
+        imageData.data[i + 2] = b; // B value
         imageData.data[i + 3] = 255; // A value
       }
     }
     // Draw image data to the canvas
     ctx.putImageData(imageData, 0, 0);
+  }
+};
+
+const draw = (array2D, islandsMap) => {
+  const canvas = document.getElementById('islandsCanavas');
+  if (canvas.getContext) {
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    islandsMap.forEach((value, key) => {
+      const { color, points } = value;
+      ctx.fillStyle = color;
+      points.map((point) => {
+        ctx.fillRect(point.x * 10, point.y * 10, 10, 10);
+        return null;
+      });
+    });
   }
 };
 
@@ -45,7 +61,8 @@ const runCount = () => {
   console.log('time:', timeDiff);
   console.log(islandMapper.islandsDictionary);
   const dataToDrow = covertArray2dTO1d(islandMapper.islansdMap2d);
-  draw(n, m, dataToDrow, islandMapper.islandsDictionary);
+  // draw(n, m, dataToDrow, islandMapper.islandsDictionary);
+  draw(islandMapper.islansdMap2d, islandMapper.islandsDictionary);
 };
 
 document.getElementById('btnCount').addEventListener('click', runCount, false);

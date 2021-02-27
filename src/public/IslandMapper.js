@@ -84,10 +84,10 @@ class IslandMapper {
 
   // isPointInSland(point, )
   doMapIsland(root, island) {
-    let index = 0;
+    // let index = 0;
     const queueNewPoints = new Queue(root);
-    while (queueNewPoints.getLength() && index < 1000) {
-      index += 1;
+    while (queueNewPoints.getLength()) {
+      // index += 1;
       const point = queueNewPoints.shift();
       this.addPointToIsland(point, island);
       // add neighbor land point to queue

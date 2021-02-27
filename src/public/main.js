@@ -42,7 +42,7 @@ const drawRandomMap = (array2D, mapWidth, mapHight) => {
   if (canvas.getContext) {
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = 'rgb(0, 0, 3)';
+    ctx.fillStyle = 'rgb(0, 0, 0)';
     for (let y = 0; y < array2D.length; y += 1) {
       for (let x = 0; x < array2D[y].length; x += 1) {
         if (array2D[y][x] === 1) {
@@ -72,8 +72,9 @@ const drawSolvedMap = (islandsMap, mapWidth, mapHight) => {
 
 const runRandomizeMap = () => {
   console.log('start runRandomizeMap');
-  width = parseInt(document.getElementById('inputWidth').value);
-  hight = parseInt(document.getElementById('inputHight').value);
+  width = parseInt(document.getElementById('inputWidth').value, 10);
+  hight = parseInt(document.getElementById('inputHight').value, 10);
+  console.log('width:', width);
   islandMapper = new IslandMapper(width, hight);
   // islandMapper.printMap();
   drawRandomMap(islandMapper.map2d, width, hight);
@@ -94,5 +95,33 @@ const runSolveMap = () => {
   drawSolvedMap(islandMapper.islandsDictionary, width, hight);
 };
 
+const validateMapSize = (e) => {
+  const number = e.target.value;
+  if (number > 1200) {
+    e.target.value = 1200;
+  }
+  if (number < 1) {
+    e.target.value = 1;
+  }
+};
+
+const changeCnavasSize = (e) => {
+  let number = e.target.value;
+  if (number > 1000) {
+    e.target.value = 1000;
+    number = 1000;
+  }
+  if (number < 100) {
+    e.target.value = 100;
+    number = 100;
+  }
+  const canvas = document.getElementById('islandsCanavas');
+  canvas.width = number;
+  canvas.height = number;
+};
+
 document.getElementById('btnRandomize').addEventListener('click', runRandomizeMap, false);
 document.getElementById('btnSolve').addEventListener('click', runSolveMap, false);
+document.getElementById('inputWidth').addEventListener('input', validateMapSize);
+document.getElementById('inputHight').addEventListener('input', validateMapSize);
+document.getElementById('inputCanvasSize').addEventListener('input', changeCnavasSize);

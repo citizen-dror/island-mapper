@@ -90,7 +90,7 @@ class IslandMapper {
     // this prevent it to be added to the queue by nighbores
     this.islansdMap2d[root.y][root.x] = island.key;
     queueNewChatredLandPoints.push(root);
-    while (queueNewChatredLandPoints.getLength() && index <= 700000) {
+    while (queueNewChatredLandPoints.getLength() && index <= 1500000) {
       index += 1;
       if (index === 200000) console.log('got 200,000 limit !!');
       if (index === 500000) console.log('got 500,000 limit !!');
@@ -100,7 +100,7 @@ class IslandMapper {
       const neighbors = this.getNeighbors(point.x, point.y);
       neighbors.forEach((newPoint) => {
         if (this.isUnChartedLand(newPoint.x, newPoint.y)) {
-          this.islansdMap2d[newPoint.y][newPoint.x] = island.key; 
+          this.islansdMap2d[newPoint.y][newPoint.x] = island.key;
           queueNewChatredLandPoints.push(newPoint);
         }
       });

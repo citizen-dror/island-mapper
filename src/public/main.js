@@ -70,14 +70,23 @@ const drawSolvedMap = (islandsMap, mapWidth, mapHight) => {
   }
 };
 
+function showSolveButton(isShow) {
+  const x = document.getElementById('btnSolve');
+  if (isShow) {
+    x.style.visibility = 'visible';
+  } else {
+    x.style.visibility = 'hidden';
+  }
+}
+
 const runRandomizeMap = () => {
   console.log('start runRandomizeMap');
   width = parseInt(document.getElementById('inputWidth').value, 10);
   hight = parseInt(document.getElementById('inputHight').value, 10);
-  console.log('width:', width);
   islandMapper = new IslandMapper(width, hight);
   // islandMapper.printMap();
   drawRandomMap(islandMapper.map2d, width, hight);
+  showSolveButton(true);
 };
 
 const runSolveMap = () => {
@@ -93,6 +102,7 @@ const runSolveMap = () => {
   // const dataToDrow = covertArray2dTO1d(islandMapper.islansdMap2d);
   // draw(n, m, dataToDrow, islandMapper.islandsDictionary);
   drawSolvedMap(islandMapper.islandsDictionary, width, hight);
+  showSolveButton(false);
 };
 
 const validateMapSize = (e) => {
@@ -118,7 +128,9 @@ const changeCnavasSize = (e) => {
   const canvas = document.getElementById('islandsCanavas');
   canvas.width = number;
   canvas.height = number;
+  showSolveButton(false);
 };
+
 
 document.getElementById('btnRandomize').addEventListener('click', runRandomizeMap, false);
 document.getElementById('btnSolve').addEventListener('click', runSolveMap, false);

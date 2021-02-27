@@ -2,6 +2,10 @@ import IslandMapper from './IslandMapper';
 import { covertArray2dTO1d } from './Utils';
 import Island from './Island';
 
+const width = 200;
+const hight = 200;
+let islandMapper = null;
+
 /* const draw1 = (n, m, array2D, islandsDictionary) => {
   console.log('draw');
   const canvas = document.getElementById('islandsCanavas');
@@ -31,11 +35,30 @@ import Island from './Island';
   }
 }; */
 
+const drawRandomMap = (array2D, mapWidth, mapHight) => {
+  const canvas = document.getElementById('islandsCanavas');
+  const rectWidth = (canvas.width / mapWidth);
+  const rectHight = (canvas.height / mapHight);
+  if (canvas.getContext) {
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = 'rgb(191, 0, 255)';
+    console.log ('test data')
+    console.log (array2D);
+    for (let y = 0; y < array2D.length; y += 1) {
+      for (let x = 0; x < array2D[y].length; x += 1) {
+        if (array2D[y][x] === 1) {
+          ctx.fillRect(x * rectWidth, y * rectHight, rectWidth, rectHight);
+        }
+      }
+    }
+  }
+};
+
 const draw = (islandsMap, mapWidth, mapHight) => {
   const canvas = document.getElementById('islandsCanavas');
   const rectWidth = (canvas.width / mapWidth);
   const rectHight = (canvas.height / mapHight);
-
   if (canvas.getContext) {
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -49,12 +72,17 @@ const draw = (islandsMap, mapWidth, mapHight) => {
   }
 };
 
+const runRandomizeMap = () => {
+  console.log('start runRandomizeMap');
+  islandMapper = new IslandMapper(width, hight);
+  islandMapper.printMap();
+  drawRandomMap(islandMapper.map2d, width, hight);
+};
+
 const runCount = () => {
   console.log('start count');
   const start = new Date().getTime();
-  const width = 200;
-  const hight = 200;
-  const islandMapper = new IslandMapper(width, hight);
+  // const islandMapper = new IslandMapper(width, hight);
   islandMapper.printMap();
   const count = islandMapper.findIslends();
   islandMapper.printIslandMap();
@@ -67,4 +95,6 @@ const runCount = () => {
   draw(islandMapper.islandsDictionary, width, hight);
 };
 
+
+document.getElementById('btnRandomize').addEventListener('click', runRandomizeMap, false);
 document.getElementById('btnCount').addEventListener('click', runCount, false);

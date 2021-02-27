@@ -100,7 +100,6 @@ class IslandMapper {
           }
         });
       }
-    
     }
   }
 
@@ -146,10 +145,10 @@ class IslandMapper {
   }
 
   printIslandlist() {
-    this.islandsDictionary.forEach((value) =>{
+    this.islandsDictionary.forEach((value) => {
       const { key, color, points } = value;
-      console.log(`island ${key}: ${points.size}, ${color}` );
-    })
+      console.log(`island ${key}: ${points.size}, ${color}`);
+    });
     // eslint-disable-next-line no-console
     console.log(this.islansdMap2d);
   }

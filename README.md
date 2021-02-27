@@ -1,2 +1,2 @@
-# islands
+# Islands Mapper
 A JavaScript project

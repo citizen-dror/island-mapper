@@ -1,6 +1,9 @@
-function Point(x, y) {
-  this.x = x;
-  this.y = y;
-}
+export default class Point {
+  x: number;
+  y: number;
 
-export default Point;
+  constructor(x: number, y: number) {
+    this.x = x;
+    this.y = y;
+  }
+}

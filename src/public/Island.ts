@@ -1,14 +1,22 @@
-import { createRandomColor } from './Utils';
+
+import Point from './Point';
+import {createRandomColor} from './Utils';
 
 class Island {
-  constructor(key) {
+  key: number;
+
+  points: Map<any, any>;
+
+  color: string;
+
+  constructor(key:number) {
     this.key = key;
     // this.points = [];
     this.points = new Map();
     this.color = createRandomColor();
   }
 
-  addPoint(point) {
+  addPoint(point:Point) {
     // this.points.push(point);
     this.points.set(`${point.x},${point.y}`, point);
   }

@@ -1,6 +1,4 @@
 import IslandMapper from './IslandMapper';
-import { covertArray2dTO1d } from './Utils';
-import Island from './Island';
 
 let width = 200;
 let hight = 200;
@@ -115,6 +113,7 @@ const validateMapSize = (e) => {
   }
 };
 
+
 const changeCnavasSize = (e) => {
   let number = e.target.value;
   if (number > 1000) {
@@ -130,7 +129,6 @@ const changeCnavasSize = (e) => {
   canvas.height = number;
   showSolveButton(false);
 };
-
 
 document.getElementById('btnRandomize').addEventListener('click', runRandomizeMap, false);
 document.getElementById('btnSolve').addEventListener('click', runSolveMap, false);

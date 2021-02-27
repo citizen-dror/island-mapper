@@ -1,4 +1,4 @@
-function randoNumber(min, max) { // min and max included
+function randoNumber(min: number, max :number) { 
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
@@ -25,13 +25,13 @@ const COLOR_PALLATE = new Map(
   ],
 );
 
-const getColorFromPallate = (key) => {
+const getColorFromPallate = (key: number) => {
   const newKey = key % (COLOR_PALLATE.size);
   const color = COLOR_PALLATE.get(newKey);
   return color;
 };
 
-const copy2DArray = (array) => {
+const copy2DArray = (array: any[]) => {
   const newArray = [];
   for (let i = 0; i < array.length; i += 1) {
     newArray[i] = array[i].slice();
@@ -39,8 +39,8 @@ const copy2DArray = (array) => {
   return newArray;
 };
 
-const covertArray2dTO1d = (array2D) => {
-  let newArr = [];
+const covertArray2dTO1d = (array2D: any[][]) => {
+  let newArr : any [] = [];
   for (let i = 0; i < array2D.length; i += 1) {
     newArr = newArr.concat(array2D[i]);
   }

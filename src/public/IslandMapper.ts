@@ -1,38 +1,21 @@
 import Island from './Island';
 import Point from './Point';
 import Queue from './Queue';
-import { randoNumber } from './Utils';
+import {randoNumber} from './Utils';
 
+/*
+ * mapper of 2d array with 0,1 data
+ */
 class IslandMapper {
-  constructor(width, hight) {
+  islandCount: number;
+  map2d: number[][];
+  length: any;
+  hight: any;
+  islansdMap2d: any[];
+  islandsDictionary: Map<any, any>;
+
+  constructor(width: number, hight: number) {
     this.islandCount = 0;
-
-    // this.map = [
-    //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    //   [0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-    // ];
-
-    // this.map = [
-    //   [0, 1, 0, 0],
-    //   [0, 1, 0, 0],
-    //   [0, 0, 0, 1],
-    // ];
-
     this.map2d = IslandMapper.initMap(width, hight);
     // console.log(this.map);
     this.length = this.map2d[0].length;
@@ -43,15 +26,22 @@ class IslandMapper {
     this.islandsDictionary = new Map();
   }
 
-  static initMap(width, hight) {
+  /*
+   * create new map - 2d arrray with random 0/1 data
+   * @param {*} width of the map
+   * @param {*} hight of the map
+   */
+  static initMap(width: number, hight: number) {
     const arr = [];
     for (let i = 0; i < hight; i += 1) {
       arr[i] = Array.from({ length: width }, () => randoNumber(0, 1));
     }
     return arr;
   }
-
-  static initIslandsMap(array) {
+  /*
+   * 
+   */
+  static initIslandsMap(array: number[][]) {
     const newArray = [];
     for (let i = 0; i < array.length; i += 1) {
       newArray[i] = array[i].map((x) => ((x === 1) ? -1 : 0));
@@ -78,12 +68,12 @@ class IslandMapper {
   // if val ===-1 - uncharted land
   // if 0 = sea,
   // if val > 0  -mapped Land
-  isUnChartedLand(x, y) {
+  isUnChartedLand(x: number, y: number) {
     return (this.islansdMap2d[y][x] < 0);
   }
 
   // isPointInSland(point, )
-  doMapIsland(root, island) {
+  doMapIsland(root: Point, island: Island) {
     let index = 0;
     const queueNewChatredLandPoints = new Queue();
     // if point is the queue its already marked as charted
@@ -107,7 +97,7 @@ class IslandMapper {
     }
   }
 
-  getNeighbors(x, y) {
+  getNeighbors(x: number, y: number) {
     const neighbors = [];
     if (x > 0) {
       if (y > 0) neighbors.push(new Point(x - 1, y - 1));
@@ -132,7 +122,7 @@ class IslandMapper {
     return island;
   }
 
-  addPointToIsland(point, island) {
+  addPointToIsland(point: Point, island: Island) {
     // console.log(`${island.key}: ${point.x}, ${point.y}`);
     island.addPoint(point);
     // this.islansdMap2d[point.y][point.x] = island.key;

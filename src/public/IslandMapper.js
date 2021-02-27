@@ -33,7 +33,7 @@ class IslandMapper {
     //   [0, 0, 0, 1],
     // ];
 
-    this.map2d = IslandMapper.initMap(hight, width);
+    this.map2d = IslandMapper.initMap(width, hight);
     // console.log(this.map);
     this.length = this.map2d[0].length;
     this.hight = this.map2d.length;

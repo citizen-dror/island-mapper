@@ -2,8 +2,8 @@ import IslandMapper from './IslandMapper';
 import { covertArray2dTO1d } from './Utils';
 import Island from './Island';
 
-const width = 200;
-const hight = 200;
+let width = 200;
+let hight = 200;
 let islandMapper = null;
 
 /* const draw1 = (n, m, array2D, islandsDictionary) => {
@@ -43,8 +43,8 @@ const drawRandomMap = (array2D, mapWidth, mapHight) => {
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = 'rgb(191, 0, 255)';
-    console.log ('test data')
-    console.log (array2D);
+    console.log('test data');
+    console.log(array2D);
     for (let y = 0; y < array2D.length; y += 1) {
       for (let x = 0; x < array2D[y].length; x += 1) {
         if (array2D[y][x] === 1) {
@@ -74,12 +74,14 @@ const draw = (islandsMap, mapWidth, mapHight) => {
 
 const runRandomizeMap = () => {
   console.log('start runRandomizeMap');
+  width = parseInt(document.getElementById('inputWidth').value);
+  hight = parseInt(document.getElementById('inputHight').value);
   islandMapper = new IslandMapper(width, hight);
   islandMapper.printMap();
   drawRandomMap(islandMapper.map2d, width, hight);
 };
 
-const runCount = () => {
+const runSolveMap = () => {
   console.log('start count');
   const start = new Date().getTime();
   // const islandMapper = new IslandMapper(width, hight);
@@ -95,6 +97,5 @@ const runCount = () => {
   draw(islandMapper.islandsDictionary, width, hight);
 };
 
-
 document.getElementById('btnRandomize').addEventListener('click', runRandomizeMap, false);
-document.getElementById('btnCount').addEventListener('click', runCount, false);
+document.getElementById('btnSolve').addEventListener('click', runSolveMap, false);

@@ -2,7 +2,7 @@ import IslandMapper from './IslandMapper';
 import { covertArray2dTO1d } from './Utils';
 import Island from './Island';
 
-const draw1 = (n, m, array2D, islandsDictionary) => {
+/* const draw1 = (n, m, array2D, islandsDictionary) => {
   console.log('draw');
   const canvas = document.getElementById('islandsCanavas');
   if (canvas.getContext) {
@@ -29,18 +29,21 @@ const draw1 = (n, m, array2D, islandsDictionary) => {
     // Draw image data to the canvas
     ctx.putImageData(imageData, 0, 0);
   }
-};
+}; */
 
-const draw = (array2D, islandsMap) => {
+const draw = (islandsMap, mapWidth, mapHight) => {
   const canvas = document.getElementById('islandsCanavas');
+  const rectWidth = (canvas.width / mapWidth);
+  const rectHight = (canvas.height / mapHight);
+
   if (canvas.getContext) {
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    islandsMap.forEach((value, key) => {
+    islandsMap.forEach((value) => {
       const { color, points } = value;
       ctx.fillStyle = color;
       points.map((point) => {
-        ctx.fillRect(point.x * 10, point.y * 10, 10, 10);
+        ctx.fillRect(point.x * rectWidth, point.y * rectHight, rectWidth, rectHight);
         return null;
       });
     });
@@ -50,9 +53,9 @@ const draw = (array2D, islandsMap) => {
 const runCount = () => {
   console.log('start count');
   const start = new Date().getTime();
-  const n = 10;
-  const m = 10;
-  const islandMapper = new IslandMapper(n, m);
+  const width = 20;
+  const hight = 20;
+  const islandMapper = new IslandMapper(width, hight);
   islandMapper.printMap();
   const count = islandMapper.findIslends();
   islandMapper.printIslandMap();
@@ -62,7 +65,7 @@ const runCount = () => {
   console.log(islandMapper.islandsDictionary);
   const dataToDrow = covertArray2dTO1d(islandMapper.islansdMap2d);
   // draw(n, m, dataToDrow, islandMapper.islandsDictionary);
-  draw(islandMapper.islansdMap2d, islandMapper.islandsDictionary);
+  draw(islandMapper.islandsDictionary, width, hight);
 };
 
 document.getElementById('btnCount').addEventListener('click', runCount, false);

@@ -4,7 +4,7 @@ import Queue from './Queue';
 import { randoNumber } from './Utils';
 
 class IslandMapper {
-  constructor(hight, length) {
+  constructor(width, hight) {
     this.islandCount = 0;
 
     // this.map = [
@@ -33,7 +33,7 @@ class IslandMapper {
     //   [0, 0, 0, 1],
     // ];
 
-    this.map2d = IslandMapper.initMap(hight, length);
+    this.map2d = IslandMapper.initMap(hight, width);
     // console.log(this.map);
     this.length = this.map2d[0].length;
     this.hight = this.map2d.length;
@@ -43,10 +43,10 @@ class IslandMapper {
     this.islandsDictionary = new Map();
   }
 
-  static initMap(hight, length) {
+  static initMap(width, hight) {
     const arr = [];
     for (let i = 0; i < hight; i += 1) {
-      arr[i] = Array.from({ length }, () => randoNumber(0, 1));
+      arr[i] = Array.from({ length: width }, () => randoNumber(0, 1));
     }
     return arr;
   }

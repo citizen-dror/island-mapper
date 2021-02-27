@@ -144,6 +144,15 @@ class IslandMapper {
     // eslint-disable-next-line no-console
     console.log(this.islansdMap2d);
   }
+
+  printIslandlist() {
+    this.islandsDictionary.forEach((value) =>{
+      const { key, color, points } = value;
+      console.log(`island ${key}: ${points.size}, ${color}` );
+    })
+    // eslint-disable-next-line no-console
+    console.log(this.islansdMap2d);
+  }
 }
 
 export default IslandMapper;

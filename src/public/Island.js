@@ -1,11 +1,11 @@
-import { getColorFromPallate } from './Utils';
+import { createRandomColor } from './Utils';
 
 class Island {
   constructor(key) {
     this.key = key;
     // this.points = [];
     this.points = new Map();
-    this.color = getColorFromPallate(key);
+    this.color = createRandomColor();
   }
 
   addPoint(point) {

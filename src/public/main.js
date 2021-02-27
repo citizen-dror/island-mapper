@@ -52,8 +52,8 @@ const draw = (islandsMap, mapWidth, mapHight) => {
 const runCount = () => {
   console.log('start count');
   const start = new Date().getTime();
-  const width = 30;
-  const hight = 30;
+  const width = 200;
+  const hight = 200;
   const islandMapper = new IslandMapper(width, hight);
   islandMapper.printMap();
   const count = islandMapper.findIslends();
@@ -61,8 +61,8 @@ const runCount = () => {
   const timeDiff = new Date().getTime() - start;
   console.log('count: ', count);
   console.log('time:', timeDiff);
-  console.log(islandMapper.islandsDictionary);
-  const dataToDrow = covertArray2dTO1d(islandMapper.islansdMap2d);
+  islandMapper.printIslandlist();
+  // const dataToDrow = covertArray2dTO1d(islandMapper.islansdMap2d);
   // draw(n, m, dataToDrow, islandMapper.islandsDictionary);
   draw(islandMapper.islandsDictionary, width, hight);
 };

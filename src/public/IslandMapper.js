@@ -85,22 +85,25 @@ class IslandMapper {
   // isPointInSland(point, )
   doMapIsland(root, island) {
     let index = 0;
-    const queueNewPoints = new Queue(root);
-    while (queueNewPoints.getLength() && index <= 700000) {
+    const queueNewChatredLandPoints = new Queue();
+    // if point is the queue its already marked as charted
+    // this prevent it to be added to the queue by nighbores
+    this.islansdMap2d[root.y][root.x] = island.key;
+    queueNewChatredLandPoints.push(root);
+    while (queueNewChatredLandPoints.getLength() && index <= 700000) {
       index += 1;
       if (index === 200000) console.log('got 200,000 limit !!');
       if (index === 500000) console.log('got 500,000 limit !!');
-      const point = queueNewPoints.shift();
-      if (this.isUnChartedLand(point.x, point.y)) {
-        this.addPointToIsland(point, island);
-        // add neighbor land point to queue
-        const neighbors = this.getNeighbors(point.x, point.y);
-        neighbors.forEach((newPoint) => {
-          if (this.isUnChartedLand(newPoint.x, newPoint.y)) {
-            queueNewPoints.push(newPoint);
-          }
-        });
-      }
+      const point = queueNewChatredLandPoints.shift();
+      this.addPointToIsland(point, island);
+      // add neighbor land point to queue
+      const neighbors = this.getNeighbors(point.x, point.y);
+      neighbors.forEach((newPoint) => {
+        if (this.isUnChartedLand(newPoint.x, newPoint.y)) {
+          this.islansdMap2d[newPoint.y][newPoint.x] = island.key; 
+          queueNewChatredLandPoints.push(newPoint);
+        }
+      });
     }
   }
 
@@ -125,14 +128,14 @@ class IslandMapper {
     this.islandCount += 1;
     const island = new Island(this.islandCount);
     this.islandsDictionary.set(this.islandCount, island);
-    console.log(`new island ${island.key}:`);
+    // console.log(`new island ${island.key}:`);
     return island;
   }
 
   addPointToIsland(point, island) {
     // console.log(`${island.key}: ${point.x}, ${point.y}`);
     island.addPoint(point);
-    this.islansdMap2d[point.y][point.x] = island.key;
+    // this.islansdMap2d[point.y][point.x] = island.key;
   }
 
   printMap() {

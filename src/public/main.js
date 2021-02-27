@@ -42,9 +42,7 @@ const drawRandomMap = (array2D, mapWidth, mapHight) => {
   if (canvas.getContext) {
     const ctx = canvas.getContext('2d');
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.fillStyle = 'rgb(191, 0, 255)';
-    console.log('test data');
-    console.log(array2D);
+    ctx.fillStyle = 'rgb(0, 0, 3)';
     for (let y = 0; y < array2D.length; y += 1) {
       for (let x = 0; x < array2D[y].length; x += 1) {
         if (array2D[y][x] === 1) {
@@ -55,7 +53,7 @@ const drawRandomMap = (array2D, mapWidth, mapHight) => {
   }
 };
 
-const draw = (islandsMap, mapWidth, mapHight) => {
+const drawSolvedMap = (islandsMap, mapWidth, mapHight) => {
   const canvas = document.getElementById('islandsCanavas');
   const rectWidth = (canvas.width / mapWidth);
   const rectHight = (canvas.height / mapHight);
@@ -77,24 +75,23 @@ const runRandomizeMap = () => {
   width = parseInt(document.getElementById('inputWidth').value);
   hight = parseInt(document.getElementById('inputHight').value);
   islandMapper = new IslandMapper(width, hight);
-  islandMapper.printMap();
+  // islandMapper.printMap();
   drawRandomMap(islandMapper.map2d, width, hight);
 };
 
 const runSolveMap = () => {
   console.log('start count');
   const start = new Date().getTime();
-  // const islandMapper = new IslandMapper(width, hight);
-  islandMapper.printMap();
+  // islandMapper.printMap();
   const count = islandMapper.findIslends();
-  islandMapper.printIslandMap();
+  // islandMapper.printIslandMap();
   const timeDiff = new Date().getTime() - start;
-  console.log('count: ', count);
-  console.log('time:', timeDiff);
-  islandMapper.printIslandlist();
+  // islandMapper.printIslandlist();
+  console.log('Island count: ', count);
+  console.log('Time (ms): ', timeDiff);
   // const dataToDrow = covertArray2dTO1d(islandMapper.islansdMap2d);
   // draw(n, m, dataToDrow, islandMapper.islandsDictionary);
-  draw(islandMapper.islandsDictionary, width, hight);
+  drawSolvedMap(islandMapper.islandsDictionary, width, hight);
 };
 
 document.getElementById('btnRandomize').addEventListener('click', runRandomizeMap, false);

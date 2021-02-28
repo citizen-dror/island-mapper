@@ -3,13 +3,14 @@ import Point from './point';
 import Queue from './queue';
 import {randoNumber} from './utils';
 
-/*
- * mapper of 2d array with 0,1 data
+/**
+ * mapper of 2d-array with 0,1 data, to Map (dictionary) with different islands colors and points
+ * each island in surrounded with 0 
  */
 class IslandMapper {
   islandCount: number;
   map2d: number[][];
-  length: any;
+  width: any;
   hight: any;
   islansdMap2d: any[];
   islandsDictionary: Map<any, any>;
@@ -17,9 +18,10 @@ class IslandMapper {
   constructor(width: number, hight: number) {
     this.islandCount = 0;
     this.map2d = IslandMapper.initMap(width, hight);
-    // console.log(this.map);
-    this.length = this.map2d[0].length;
+    // console.log(this.map2d);
+    this.width = this.map2d[0].length;
     this.hight = this.map2d.length;
+    // this will be converted to 0/1..n 2d array as islands are mapped 
     this.islansdMap2d = IslandMapper.initIslandsMap(this.map2d);
     // const islandStrat = IslandCounter.copy2DArray(this.islandMap);
     // console.log(islandStrat);
@@ -28,8 +30,8 @@ class IslandMapper {
 
   /*
    * create new map - 2d arrray with random 0/1 data
-   * @param {*} width of the map
-   * @param {*} hight of the map
+   * @param {number} width of the map
+   * @param {number} hight of the map
    */
   static initMap(width: number, hight: number) {
     const arr = [];
@@ -38,8 +40,11 @@ class IslandMapper {
     }
     return arr;
   }
-  /*
-   * 
+  /**
+   * initialize 2d-array which is the map of the islands,  
+   * create 2d-array with 0/-1 from input 2d-array of 0/1
+   * -1 point symbols un-charted land, 0 symbols water
+   * @param array - 2d array which is the input
    */
   static initIslandsMap(array: number[][]) {
     const newArray = [];
@@ -49,47 +54,59 @@ class IslandMapper {
     return newArray;
   }
 
-  //*
+  /**
+   * iterate over the input map, looking for un-charted land point 
+   * if found this root point, add new island and start mapping all its points
+   */
   findIslends() {
     for (let y = 0; y < this.map2d.length; y += 1) {
       for (let x = 0; x < this.map2d[y].length; x += 1) {
         if (this.isUnChartedLand(x, y)) {
-          // this.islandMap[y][x] = 2;
           const island = this.addNewIsland();
           const point = new Point(x, y);
           this.doMapIsland(point, island);
-          // console.log(`point (${x}, ${y})`);
         }
       }
     }
     return this.islandCount;
   }
 
-  // if val ===-1 - uncharted land
-  // if 0 = sea,
-  // if val > 0  -mapped Land
+  /**
+   * check if given x,y is un-charted land (-1)
+   * 0 symbols sea, val > 1 symbols mapped land
+   * @param x 
+   * @param y 
+   */
   isUnChartedLand(x: number, y: number) {
     return (this.islansdMap2d[y][x] < 0);
   }
 
-  // isPointInSland(point, )
+  /**
+   * map an island - get a root - point which is un-charted land, 
+   * insert the root to the new island
+   * find all its un-charted land neighbors. put them in a queue and map them too
+   * @param root - first point in a new island 
+   * @param island - island with key, and points
+   */
   doMapIsland(root: Point, island: Island) {
     let index = 0;
-    const queueNewChatredLandPoints = new Queue();
-    // if point is the queue its already marked as charted
+    // queue of new land points, which are part of this island
+    // point in the queue is marked as charted (value >0 )
     // this prevent it to be added to the queue by nighbores
+    const queueNewChatredLandPoints = new Queue();
+    // chart the root point, add it to queue
     this.islansdMap2d[root.y][root.x] = island.key;
     queueNewChatredLandPoints.push(root);
     while (queueNewChatredLandPoints.getLength() && index <= 1500000) {
       index += 1;
-      if (index === 200000) console.log('got 200,000 limit !!');
-      if (index === 500000) console.log('got 500,000 limit !!');
+      if (index === 500000) console.log('500,000 limit !!');
       const point = queueNewChatredLandPoints.shift();
       this.addPointToIsland(point, island);
       // add neighbor land point to queue
       const neighbors = this.getNeighbors(point.x, point.y);
       neighbors.forEach((newPoint) => {
         if (this.isUnChartedLand(newPoint.x, newPoint.y)) {
+          // chart new point, add it to queue
           this.islansdMap2d[newPoint.y][newPoint.x] = island.key;
           queueNewChatredLandPoints.push(newPoint);
         }
@@ -97,6 +114,11 @@ class IslandMapper {
     }
   }
 
+  /**
+   * get Neighbors of given point 
+   * @param x 
+   * @param y 
+   */
   getNeighbors(x: number, y: number) {
     const neighbors = [];
     if (x > 0) {
@@ -106,7 +128,7 @@ class IslandMapper {
     }
     if (y > 0) neighbors.push(new Point(x, y - 1));
     if (y + 1 < this.hight) neighbors.push(new Point(x, y + 1));
-    if (x + 1 < this.length) {
+    if (x + 1 < this.width) {
       if (y > 0) neighbors.push(new Point(x + 1, y - 1));
       neighbors.push(new Point(x + 1, y));
       if (y + 1 < this.hight) neighbors.push(new Point(x + 1, y + 1));
@@ -114,6 +136,9 @@ class IslandMapper {
     return neighbors;
   }
 
+  /**
+   * careate new Island and add it to Dictionary of dictionary islands
+   */
   addNewIsland() {
     this.islandCount += 1;
     const island = new Island(this.islandCount);
@@ -122,22 +147,35 @@ class IslandMapper {
     return island;
   }
 
+  /**
+   * add new point to an island
+   * @param point 
+   * @param island 
+   */
   addPointToIsland(point: Point, island: Island) {
     // console.log(`${island.key}: ${point.x}, ${point.y}`);
     island.addPoint(point);
-    // this.islansdMap2d[point.y][point.x] = island.key;
   }
 
+  /**
+   * log the input (0/1) 2d-array map
+   */
   printMap() {
     // eslint-disable-next-line no-console
     console.log(this.map2d);
   }
 
+   /**
+   * log the isalnds 2d-array map, 0 is ochen 1..n are islands
+   */
   printIslandMap() {
     // eslint-disable-next-line no-console
     console.log(this.islansdMap2d);
   }
 
+  /**
+   * log list of islands, by key, size and color  
+   */
   printIslandlist() {
     this.islandsDictionary.forEach((value) => {
       const { key, color, points } = value;

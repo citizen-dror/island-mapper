@@ -1,7 +1,7 @@
-import Island from './Island';
-import Point from './Point';
-import Queue from './Queue';
-import {randoNumber} from './Utils';
+import Island from './island';
+import Point from './point';
+import Queue from './queue';
+import {randoNumber} from './utils';
 
 /*
  * mapper of 2d array with 0,1 data

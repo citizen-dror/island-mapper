@@ -1,6 +1,6 @@
 
-import Point from './Point';
-import {createRandomColor} from './Utils';
+import Point from './point';
+import {createRandomColor} from './utils';
 
 class Island {
   key: number;

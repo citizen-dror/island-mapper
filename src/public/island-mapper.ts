@@ -14,6 +14,7 @@ class IslandMapper {
   hight: any;
   islansdMap2d: any[];
   islandsDictionary: Map<any, any>;
+  infiniteloopSafetyValve: number;
 
   constructor(width: number, hight: number) {
     this.islandCount = 0;
@@ -21,6 +22,7 @@ class IslandMapper {
     // console.log(this.map2d);
     this.width = this.map2d[0].length;
     this.hight = this.map2d.length;
+    this.infiniteloopSafetyValve = this.width * this.hight * 1.2;
     // this will be converted to 0/1..n 2d array as islands are mapped 
     this.islansdMap2d = IslandMapper.initIslandsMap(this.map2d);
     // const islandStrat = IslandCounter.copy2DArray(this.islandMap);
@@ -97,9 +99,13 @@ class IslandMapper {
     // chart the root point, add it to queue
     this.islansdMap2d[root.y][root.x] = island.key;
     queueNewChatredLandPoints.push(root);
-    while (queueNewChatredLandPoints.getLength() && index <= 1500000) {
+    while (queueNewChatredLandPoints.getLength()) {
       index += 1;
-      if (index === 500000) console.log('500,000 limit !!');
+      if (index > this.infiniteloopSafetyValve) {
+        // todo - add msg to user
+        console.log("infinite loop SafetyValve break !!");
+        break;
+      }
       const point = queueNewChatredLandPoints.shift();
       this.addPointToIsland(point, island);
       // add neighbor land point to queue

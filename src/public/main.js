@@ -5,15 +5,18 @@ let width = 200;
 let hight = 200;
 let islandMapper = null;
 
-
-function showSolveButton(isShow) {
-  const x = document.getElementById('btnSolve');
+const showControl= (id, isShow) => {
+  const x = document.getElementById(id);
   if (isShow) {
     x.style.visibility = 'visible';
   } else {
     x.style.visibility = 'hidden';
   }
 }
+
+const setLebelAndValue = (id, label, value) => {
+  document.getElementById(id).innerHTML = `<b>${label}:</b> ${value}`;
+} 
 
 const runRandomizeMap = () => {
   console.log('start runRandomizeMap');
@@ -22,7 +25,9 @@ const runRandomizeMap = () => {
   islandMapper = new IslandMapper(width, hight);
   // islandMapper.printMap();
   drawArr2dBinary('islandsCanavas', islandMapper.map2d, width, hight);
-  showSolveButton(true);
+  showControl('noticeDiv',false);
+  showControl('btnSolve',true);
+ 
 };
 
 const runSolveMap = () => {
@@ -33,12 +38,11 @@ const runSolveMap = () => {
   // islandMapper.printIslandMap();
   const timeDiff = new Date().getTime() - start;
   // islandMapper.printIslandlist();
-  console.log('Island count: ', count);
-  console.log('Time (ms): ', timeDiff);
-  // const dataToDrow = covertArray2dTO1d(islandMapper.islansdMap2d);
-  // draw(n, m, dataToDrow, islandMapper.islandsDictionary);
+  setLebelAndValue('spanIslandCount', 'Island count ', count); 
+  setLebelAndValue('spanTime','Time (ms)', timeDiff);
+  showControl('noticeDiv',true);
   drawMapWithColors('islandsCanavas', islandMapper.islandsDictionary, width, hight);
-  showSolveButton(false);
+  showControl('btnSolve',false);
 };
 
 const validateMapSize = (e) => {
@@ -50,6 +54,7 @@ const validateMapSize = (e) => {
     e.target.value = 1;
   }
 };
+
 
 
 const changeCnavasSize = (e) => {
@@ -65,7 +70,7 @@ const changeCnavasSize = (e) => {
   const canvas = document.getElementById('islandsCanavas');
   canvas.width = number;
   canvas.height = number;
-  showSolveButton(false);
+  showControl('btnSolve', false);
 };
 
 document.getElementById('btnRandomize').addEventListener('click', runRandomizeMap, false);

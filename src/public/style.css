@@ -118,3 +118,16 @@ progress {
 }
 
 canvas { border: 1px solid black; }
+
+#controlsDiv {
+  padding-top: 0.1rem; 
+  padding-bottom: 0.5rem; 
+}
+
+.controlsRows{
+  padding-top: 0.4rem;
+}
+
+.infoSpan {
+  padding-right: 0.4rem; 
+}
